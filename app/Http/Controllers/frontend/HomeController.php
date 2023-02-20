@@ -65,4 +65,10 @@ class HomeController extends Controller
 
 
    }
+   public function about(){
+    return view('frontend.page.about');
+   }
+   public function contact(){
+    return view('frontend.page.contact');
+   }
 }

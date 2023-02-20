@@ -1,113 +1,151 @@
 <style>
-  .logo-text{
-    width: 100;
-    height: 3rem;
+  .navbar-nav {
+    padding-left: 1rem;
+    width: 35%;
+    background-color: #CEC4C4;
+    border-radius: 10px;
   }
-  .logo-text h2{
+
+  .nav-link {
+    color: black;
+    transition: all 0.5s ease-in-out;
+  }
+
+  .nav-link:hover {
+    background-color: white;
+  }
+
+  .logo-text {
+    width: 100%;
+    height: 4rem;
+  }
+
+  .logo-text h2 {
     font-size: 20px;
   }
-  .logoimg{
-    /* display: flex;
-    justify-content: start!important; */
+
+  .logoimg {
     margin-right: 56.7rem;
     width: 13rem;
     height: 100%;
   }
-  .logoimg img{
+
+  @media screen and (max-width: 1200px) {
+    .logoimg {
+      margin-right: 45rem !important;
+    }
+  }
+
+  @media screen and (max-width: 991px) {
+    .logoimg {
+      margin-right: 25rem !important;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .logoimg {
+      margin-right: 14rem !important;
+    }
+  }
+
+  .logoimg img {
     width: 100%;
     height: 100%;
   }
-  .navsection{
+
+  .search_section {
+    width: 50%;
+    height: 100%;
     display: flex;
-    justify-content: space-between;
-    flex-direction: row-reverse;
+    justify-content: end;
   }
-  .search_section{
-    display: flex;
-    text-align: end;
-    flex-direction: row-reverse;
+
+  .search_section ul {
+    height: 100%;
   }
-  .search_section ul li{
+
+  .search_section ul li {
     float: right;
   }
 </style>
+<div class="logo-text container">
+  <div class="logoimg">
+    <img src="{{url('frontend/images/kinbeShobai.jpg')}} " alt="">
+  </div>
+
+</div>
 <div class="header_section">
-         <div class="container">
-            <nav class="navbar navsection navbar-dark bg-dark">
-              <div class="logo-text">
-                <div class="logoimg">
-                  <img src="{{url('frontend/images/kinbeShobai.jpg')}} " alt="">
-                </div>
-
-              </div>
-
-               <a class="logo" href="index.html"><img src=""></a>
-               <div class="search_section mt-4 w-50">
-                  <ul>
-
-                  @guest
-
-                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#registration">
-                                Registration
-                            </button>
-
-                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#login">
-                                Login
-                            </button>
-
-                            @endguest
-
-                            @auth
-                            <button class="btn btn-success">{{auth()->user()->name}}</button>
-                            <button class="btn btn-success"><a href="{{route('front.logout')}}">Log Out</a></button>
-                            @endauth
-
-                     <li ><a class="addcart" href="{{route('cart.view')}}">Cart({{session()->get('myCart')? count(session()->get('myCart')) : 0}})<i class="bi bi-cart"></i></a></li>
-                     
-                  </ul>
-                  
-               </div>
-               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
-               <span class="navbar-toggler-icon"></span>
-               </button>
-               <div class="collapse navbar-collapse w-50 mt-4" id="navbarsExample01">
-                  <ul class="navbar-nav mr-auto">
-                     <li class="nav-item active">
-                        <a class="nav-link" href="index.html">Home</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="category.html">Category</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="products.html">Products</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="clients.html">Client</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact Us</a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                     </li>
-                  </ul>
-               </div>
-            </nav>
-         </div>
-         <!--banner section start -->
-         
-
-                     @if(request()->route()->getName()=='home')
-
-                        @include('frontend.fixed.banner.banner')
-
-                     @endif
-         
-         
-         <!--banner section end -->
+  <div class="container main-navigation">
+    <nav class="navbar navsection navbar-dark w-100">
+      <div class="w-50">
+        <button class="navbar-toggler menu-button" type="button" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
       </div>
 
-      <!-- Button trigger modal -->
+      <div class="search_section">
+        @if(auth()->user())
+        <li><a class="addcart" href="{{route('cart.view')}}">Cart({{session()->get('myCart')? count(session()->get('myCart')) : 0}})<i class="bi bi-cart"></i></a></li>
+        @endif
+        <ul >
+          @guest
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#registration">
+            Registration
+          </button>
+
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#login">
+            Login
+          </button>
+
+          @endguest
+
+          @auth
+          <button class="btn btn-success">{{auth()->user()->name}}</button>
+          <button class="btn btn-success"><a href="{{route('front.logout')}}">Log Out</a></button>
+          @endauth
+        </ul>
+
+      </div>
+
+    </nav>
+  </div>
+  <div class="container collapse  mt-4 @if(request()->route()->getName == 'home') navbar-collapse @endif" id="navbarsExample01">
+    <ul class="navbar-nav mr-auto  ">
+      <li class="nav-item active">
+        <a class="nav-link text-dark" style="font-weight: 700;" href="index.html">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-dark" style="font-weight: 700;" href="category.html">Category</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-dark" style="font-weight: 700;" href="">Products</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-dark" style="font-weight: 700;" href="clients.html">Client</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-dark" style="font-weight: 700;" href="{{route('contact')}}">Contact Us</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-dark" style="font-weight: 700;" href="{{route('about')}}">About</a>
+      </li>
+    </ul>
+  </div>
+
+  <!--banner section start -->
+
+
+  @if(request()->route()->getName()=='home')
+
+  @include('frontend.fixed.banner.banner')
+
+  @endif
+
+
+  <!--banner section end -->
+</div>
+
+<!-- Button trigger modal -->
 <!-- Button trigger modal -->
 <!-- Button trigger modal -->
 
@@ -125,22 +163,22 @@
         </button>
       </div>
       <div class="modal-body">
-      <form action="{{route('reg.submit')}}" method="POST">
-  
-@csrf
-  <div class="form-group">
-    <label for="">Neme</label>
-    <input type="text" name="name" class="form-control" id="exampleInputNameHelp" aria-describedby="nameHelp" placeholder="Enter name">
-  </div>
-  <div class="form-group">
-  <label for="">Email address</label>
-    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-  </div>
-  <div class="form-group">
-    <label for="">Password</label>
-    <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-  </div>
- 
+        <form action="{{route('reg.submit')}}" method="POST">
+
+          @csrf
+          <div class="form-group">
+            <label for="">Neme</label>
+            <input type="text" name="name" class="form-control" id="exampleInputNameHelp" aria-describedby="nameHelp" placeholder="Enter name">
+          </div>
+          <div class="form-group">
+            <label for="">Email address</label>
+            <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label for="">Password</label>
+            <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+          </div>
+
 
       </div>
       <div class="modal-footer">
@@ -163,16 +201,16 @@
         </button>
       </div>
       <div class="modal-body">
-      <form action="{{route('front.login')}}" method="POST">
-   @csrf
-  <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-  </div>
+        <form action="{{route('front.login')}}" method="POST">
+          @csrf
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+          </div>
 
 
       </div>
@@ -184,4 +222,3 @@
   </div>
 </div>
 </form>
-

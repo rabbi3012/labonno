@@ -1,20 +1,20 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\backend\SubcategoryController;
-use App\Http\Controllers\backend\CategoryController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\backend\AdminController;
-use App\Http\Controllers\backend\BrandsController;
-use App\Http\Controllers\backend\CustomerController;
-use App\Http\Controllers\backend\OrderController;
-use App\Http\Controllers\backend\ProductContoller;
-use App\Http\Controllers\backend\UserController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\frontend\HomeController;
 use GuzzleHttp\Middleware;
-use Illuminate\Routing\Controllers\Middleware as ControllersMiddleware;
 use Psy\TabCompletion\AutoCompleter;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\backend\UserController;
+use App\Http\Controllers\backend\AdminController;
+use App\Http\Controllers\frontend\HomeController;
+use App\Http\Controllers\backend\BrandsController;
+use App\Http\Controllers\backend\ProductContoller;
+use App\Http\Controllers\backend\CategoryController;
+use App\Http\Controllers\backend\CustomerController;
+use App\Http\Controllers\SslCommerzPaymentController;
+use App\Http\Controllers\backend\SubcategoryController;
+use Illuminate\Routing\Controllers\Middleware as ControllersMiddleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +27,22 @@ use Psy\TabCompletion\AutoCompleter;
 |
 */
 
+//payment//
+
+// SSLCOMMERZ Start
+//Route::get('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout']);
+//Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout']);
+
+Route::post('/pay', [SslCommerzPaymentController::class, 'index'])->name('payment');
+Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax']);
+
+Route::post('/success', [SslCommerzPaymentController::class, 'success']);
+Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
+Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
+
+Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
+//SSLCOMMERZ END
+//payment end//
 
 
 //frontend
@@ -44,10 +60,16 @@ Route::post('/reg-form-submit',[AuthController::class,'regformsubmit'])->name('r
 Route::get('/login',[AuthController::class,'login'])->name('login.form');
 Route::post('/login-store',[AuthController::class,'store'])->name('admin.login');
 
+
+Route::get('/about',[HomeController::class,'about'])->name('about');
+Route::get('/contact',[HomeController::class,'contact'])->name('contact');
 Route::get('/search',[HomeController::class,'search'])->name('search');
 
 Route::get('add-to-cart/{id}',[CartController::class,'addToCart'])->name('addToCart');
 Route::get('/cartview',[CartController::class,'views'])->name('cart.view');
+Route::get('/update/{id}',[CartController::class,'update'])->name('update');
+Route::get('/delete/{id}',[CartController::class,'Delete'])->name('Delete');
+Route::get('/checkout',[CartController::class,'checkout'])->name('check.out');
 
 //middleware
 Route::group(['middleware' =>['auth',"checkAdmin"]],function(){
@@ -105,8 +127,6 @@ Route::group(['middleware' =>['auth',"checkAdmin"]],function(){
     
     
     
-    Route::get('/order',[OrderController::class,'list'])->name('order.list');
-    Route::get('/order/create',[OrderController::class,'create'])->name('order.create');
-    Route::post('/order/store',[OrderController::class,'store'])->name('order.store');
+    
 });
 

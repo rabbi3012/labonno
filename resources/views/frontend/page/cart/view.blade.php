@@ -60,7 +60,7 @@ body {
 
                 @if(session()->has('myCart'))
                 @foreach(session()->get('myCart') as $key=>$cart)
-
+                <form action="{{route('update',$key)}}">
                 <div class="d-flex flex-row justify-content-between align-items-center p-2 bg-white mt-4 px-3 rounded">
                     <div class="mr-1"><img class="rounded" src="{{url('/uploads/product/'.$cart['product_img'])}}" width="70"></div>
                     <div class="d-flex flex-column align-items-center product-details"><span class="font-weight-bold">{{$cart['product_name']}}</span>
@@ -70,17 +70,33 @@ body {
                         </div>
                     </div>
                     <div class="d-flex flex-row align-items-center qty"><i class="fa fa-minus text-danger"></i>
-                        <h5 class="text-grey mt-1 mr-1 ml-1">{{$cart['quantity']}}</h5><i class="fa fa-plus text-success"></i></div>
+                      <input type="number" name="qty" id="" value="{{$cart['quantity']}}">
+                        <i class="fa fa-plus text-success"></i></div>
                     <div>
                         <h5 class="text-grey"><span class="font-weight-bold">Price:</span>{{$cart['product_price']}} BDT</h5>
                         
                         <h5 class="text-grey"><span class="font-weight-bold">Subtotal:</span>{{$cart['subtotal']}} BDT</h5>
                     </div>
+
+                    <div>
+                      <a class="btn btn-danger" href="{{route('Delete',$key)}}">Delete</a>
+                    </div>
+
+                    <div>
+                      <td>
+                      <button class="btn btn-primary" type="submit">Update</button>
+                      </td>
+                      
+                    </div>
                    
                     
                 </div>
+                </form>
                 @endforeach
                 @endif
+                
+
+                
 
                     <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded">
                        <p>Total :{{array_sum(array_column(session()->get('myCart'),'subtotal'))}}</p>
@@ -91,7 +107,8 @@ body {
                         <a href="{{route('home')}}"><button class="btn btn-warning btn-block btn-lg ml-2 pay-button" type="button">Add more</button></a>
                     </div>
                     <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded">
-                        <button class="btn btn-warning btn-block btn-lg ml-2 pay-button" type="button">Proceed to Pay</button>
+                      <a href="{{route('check.out')}}" <button class="btn btn-warning btn-block btn-lg ml-2 pay-button" type="button">Proceed to pay</a>
+                         
                     </div>
                 </div>
             </div>

@@ -53,12 +53,6 @@
       <span>User</span>
     </a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="{{route('order.list')}}">
-    <i class="fa fa-angellist"</i>
-      <span>Order</span>
-    </a>
-  </li>
 </ul>
 
 </aside><!-- End Sidebar-->
